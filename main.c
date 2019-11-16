@@ -58,8 +58,45 @@ int getCardNum(int cardnum) {
 
 //print the card information (e.g. DiaA)
 void printCard(int cardnum) {
+	int share = cardnum / (N_MAX_CARDNUM * cardSetNum); // 종류별 A,1,2,3,4,5,6,7,8,9,10,J,Q 의 13장 , 몫
+	int rem = cardnum % N_MAX_CARDNUM; // 종류별 A,1,2,3,4,5,6,7,8,9,10,J,Q 의 13장, 나머지
 	
-	if ()
+	if (rem == 0) 
+	rem =   N_MAX_CARDNUM; // 13으로 나눈 나머지가 0이면 13을 세팅(13,26,39,52)
+	
+	if(share == 0){
+		printf("HRT");
+	} 
+	
+	if(share == 1){
+		printf("DIA");
+	}
+	
+	if(share == 2){
+		printf("SPD");
+	}
+
+	else 
+		printf("CLV");
+		
+	
+	if(rem == 1){
+		printf("A");
+		
+	else if(rem == 11)
+		printf("J");
+		
+	else if(rem == 12)
+		printf("Q");
+		
+	else if(rem ==13)
+		printf("K");
+		
+	else printf("%d", rem);
+	
+	}
+	
+			
 }
 
 
@@ -88,20 +125,25 @@ int configUser(void) {
 	printf("Input the number of players(Max:5)): ") ;
 	numofusers = getIntegerInput();
 	
-	if(numofusers <=0){
-		printf("invalid input players("%d")", numofusers);
-		continue;
-	}
+	while(1){
 	
-	if(numofusers > N_MAX_USER){
-		printf("Too many players!");
-		continue;
-	}
+		if(numofusers <=0){
+			printf("invalid input players("%d")", numofusers);
+			continue;
+		}
 	
-	return numofusers;
+		if(numofusers > N_MAX_USER){
+			printf("Too many players!");
+			continue;
+		}
+	
+			return numofusers;
 	
 }
 
+printf("--------------------------------
+           -----ROUND1("CardIndex: 0)");
+           
 
 //betting
 printf("-----BETTING STEP-----");
@@ -115,35 +157,35 @@ int betDollar(void) {
 		printft("your betting (total:$50)");
 		my betting  = getIntegerInput();
 		
-		if (mybettingamount < 0){
+		if (mybettingamount <= 0){
 			printf("invalid input for betting : ");
 			scanf("%d", &mybetting);
 			continue;}
 			
-		if (){
+		if (mybettingamout > dollar[0]){
+			printf("you only have $50! bet again");
+			continue;
 		}
 		
-		printf("")
-			
-			
 		} 
 	}
 	
 	
-}
+
 
 
 //offering initial 2 cards
 void offerCards(void) {
-	int i;
+	int i,j;
 	//1. give two card for each players
-	for (i=0;i<n_user;i++)
+	for (i=0;i<n_user + 1;i++)
 	{
 		cardhold[i][0] = pullCard();
 		cardhold[i][1] = pullCard();
 	}
 	//2. give two card for the operator
 	cardhold[n_user][0] = pullCard();
+	
 	cardhold[n_user][1] = pullCard();
 	
 	return;
@@ -174,22 +216,38 @@ void printUserCardStatus(int user, int cardcnt) {
 // calculate the card sum and see if : 1. under 21, 2. over 21, 3. blackjack
 int calcStepResult() {
 	
-	int i;
-	int cardnum; //받은 카드 장 수
-	 
-	for(i=0 ; i < N_USER + 1; i++); //서버도 추가되니까 +1 
+	int i,j;
+	int cardnum; //받은 카드가 나타내는 숫자  
+	int sum = 0;
+	
+	i = player;
+	
+	//합계점수 구하기 
+	for(j=0 ; cardhold[i][j] > 0 ; j++); //값이 0보다 큰 값이어야 카드를 받은 것 
 		{
-			
+			sum = sum + getCardNum(cardhold[i][j]);
 		}	
 	
-	for (i=0 ; i <N_USER +1 ; i++)
-		{
-		cardnum = getCardNum(i); //받은 카드 장 수를 가져옴
+	//합계점수가 21보다 크면 A카드가 있는지 검사해서 11을 1로 변경해서 계산하도록 함
+	if(sum >21){
+			for(j = 0; cardhold[i][j] > 0 ; j++) //값이 0보다 큰 값이어야 카드를 받은 것
+			{
+				if(cardnum == 11) // A카드인지 확인해서 11을 1로 변경
+				{
+					sum = sum - 11;
+					sum = sum + 1;
+					
+					if(sum < 21){
+						break;
+	
+					} 
+				  }  
+			  } 
+	} 
+	cardSum[i] = sum;
+	
+	return sum;
 		
-		if(i == 0) //만약 내가 받은 카드 장 수가 0이라면 
-		{
-		printf("") 
-		}	
 }
 
 int checkResult() {
