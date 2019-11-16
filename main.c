@@ -82,7 +82,7 @@ void printCard(int cardnum) {
 	
 	if(rem == 1){
 		printf("A");
-		
+	}
 	else if(rem == 11)
 		printf("J");
 		
@@ -155,11 +155,11 @@ int betDollar(void) {
 	
 	while (1){
 		printft("your betting (total:$50)");
-		my betting  = getIntegerInput();
+		my bettingamount  = getIntegerInput();
 		
 		if (mybettingamount <= 0){
 			printf("invalid input for betting : ");
-			scanf("%d", &mybetting);
+			scanf("%d", &mybettingamount);
 			continue;}
 			
 		if (mybettingamout > dollar[0]){
@@ -193,10 +193,24 @@ void offerCards(void) {
 
 //print initial card status
 void printCardInitialStatus(void) {
+	if(player == 0){
+			printf(">>> player 1 turn!------------
+			        ->card :                      ");
+	else if (player == n_user)
+			printf(">>> player 2 turn!------------
+			        ->card :                      ");
+	else printf(">>> server turn!-----------------
+	                ->card:                       ");
+	}
+
 	
 }
 
 int getAction(void) {
+	int num = 0;
+	printf(":::Action?(0 - go, others -stay)");
+	num = getIntegerInput();
+	return num;
 	
 }
 
