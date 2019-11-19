@@ -58,8 +58,8 @@ int getCardNum(int cardnum) {
 	 
 	num= cardnum % N_MAX_CARDNUM; //종류별 A,1,2,3,,,,,10,J,Q,K(13장) 
 	
-	if (num == 0){
-		num = N_MAX_CARDNUM;
+	if (num == 0){       //13으로 나눈 나머지가 0이면 13세팅하기
+			num = N_MAX_CARDNUM;
 	} 
 	
 	if (num ==1)
@@ -74,41 +74,43 @@ int getCardNum(int cardnum) {
 
 //print the card information (e.g. DiaA)
 void printCard(int cardnum) {
-	int share = cardnum / (N_MAX_CARDNUM * cardSetNum); // 종류별 A,1,2,3,4,5,6,7,8,9,10,J,Q 의 13장 , 몫
-	int rem = cardnum % N_MAX_CARDNUM; // 종류별 A,1,2,3,4,5,6,7,8,9,10,J,Q 의 13장, 나머지
+	int share;
+	share = cardnum / (N_MAX_CARDNUM * cardSetNum); // 종류별 A,1,2,3,4,5,6,7,8,9,10,J,Q,K 의 13장 , 몫
+	int rem;
+	rem = cardnum % N_MAX_CARDNUM; // 종류별 A,1,2,3,4,5,6,7,8,9,10,J,Q,K 의 13장, 나머지
 	
 	if (rem == 0) 
 	rem =   N_MAX_CARDNUM; // 13으로 나눈 나머지가 0이면 13을 세팅(13,26,39,52)
 	
-	if(share == 0){
+	if(share == 0){ //몫이 0이면 HRT출력 
 		printf("HRT");
 	} 
 	
-	if(share == 1){
+	if(share == 1){ //몫이 1이면 DIA출력 
 		printf("DIA");
 	}
 	
-	if(share == 2){
+	if(share == 2){ //몫이 2이면 SPD출력  
 		printf("SPD");
 	}
 
 	else 
-		printf("CLV");
+		printf("CLV"); //위의 경우가 아니라면 CLV출력  
 		
 	
-	if(rem == 1){
+	if(rem == 1){ //나머지가 1이면 A출력  
 		printf("A");
 	}
-	else if(rem == 11)
+	else if(rem == 11) //나머지가 11이면 J출력  
 		printf("J");
 		
-	else if(rem == 12)
+	else if(rem == 12) //나머지가 12이면 Q출력  
 		printf("Q");
 		
-	else if(rem ==13)
+	else if(rem ==13) //나머지가 13이면 K출력  
 		printf("K");
 		
-	else printf("%d", rem);
+	else printf("%d", rem);  
 	
 	}
 	
@@ -141,69 +143,108 @@ int mixCardTray(void) {
 
 //get one card from the tray
 int pullCard(void) {
+	int card_no = 0;
 	
+	if(cardIndex < totalCardNum){
+		card_no = CardTray[cardIndex];
+		cardIndex++;
+		
+	}
+	//card_no가 0이 되면 모든 카드가 소진됨 
+	
+	return card_no; 
 	
 }
 
+//card tray에 카드가 소진됐는지 확인하기
+ //카드가 소진됐다면 return 값을 1로 하고, 아직 카드가 남았다면 return 값을 0으로 하기
+ int emptycardtray(void){
+ 	if(cardIndex >= totalCardNum){
+ 		return 1; //card tray에 카드가 소진됐으므로 게임종료 됨  
+	}
+	else 
+		return 0;
+	 }
+ } 
 
 //playing game functions -----------------------------
 
 //player settiing
 int configUser(void) {
 	
-	int numofusers = 0; //user 수 0으로 초기화
+	int n_user = 0; //user 수 0으로 초기화
 	 
-	printf("Input the number of players(Max:5)): ") ;
-	numofusers = getIntegerInput();
+	printf("Input the number of players(Max:5): ") ;
+	n_user = getIntegerInput();
 	
 	while(1){
 	
-		if(numofusers <=0){
-			printf("invalid input players("%d")", numofusers);
+		if(n_user <=0){
+			printf("invalid input players %d\n, n_user);
 			continue;
 		}
 	
-		if(numofusers > N_MAX_USER){
-			printf("Too many players!");
+		if(n_user > N_MAX_USER){
+			printf("Too many players!\n");
 			continue;
 		}
 	
-			return numofusers;
+			return n_user;
 	
+	}
 }
 
-printf("--------------------------------
-           -----ROUND1("CardIndex: 0)");
-           
-
-//betting
-printf("-----BETTING STEP-----");
-
+//각 player별로 배팅 진행  
 int betDollar(void) {
 	
 	int i;
-	int mybettingamount;
+	int myBet; //내가 배팅한 금액  
 	
 	while (1){
-		printft("your betting (total:$50)");
-		my bettingamount  = getIntegerInput();
+		printf("->your betting (total:$%d)", dollar[0]);
+		myBet  = getIntegerInput();
 		
-		if (mybettingamount <= 0){
-			printf("invalid input for betting : ");
-			scanf("%d", &mybettingamount);
-			continue;}
+		if (myBet <= 0){    //내가 입력한  배팅한 금액이 배팅최대 금액보다 적을 때   
+			printf("->invalid input for betting : %d\n",myBet);
+			continue;
+		}
 			
-		if (mybettingamout > dollar[0]){
-			printf("you only have $50! bet again");
+		if (myBet > dollar[0]){  //내가 입력한  배팅한 금액이 배팅가능한 최대 금액보다 많으면  
+			printf("->you only have $%d!\n bet again",dollar[0]);
 			continue;
 		}
 		
+		bet[0] =myBet;
+		break;
+	 
 		} 
+		
+	printf("-----------------------------------------------------------\n"); 
+	
+	//컴퓨터 플레이어 betting
+	for(i=0 ; i < n_user; i++){
+		myBet = rand() % N_MAX_BET +1 // 1~5 dollar
+		
+		if(myBet > dollar[i])
+			myBet = dollar[i];
+			bet[i] = myBet;
+		
 	}
 	
+	//베팅금액 출력
+	printf("------------BETTING STEP--------------\n");
 	
-
-
+	for(i = 0; i < n_user; i++){
+		if(i = 0){
+			printf(" -> your betting(total %d) : $%d\n",dollar[i],bet[i]);
+		}
+		else
+			printf(" -> player %d bets $%d (out of $%d)\n", bet[i], dollar[i]);
+	}
+	
+	return 0;	
+}
+	 
 
 //offering initial 2 cards
 void offerCards(void) {
