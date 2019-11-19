@@ -53,7 +53,23 @@ int getIntegerInput(void) {
 
 //calculate the actual card number in the blackjack game
 int getCardNum(int cardnum) {
+	int no = 0;
+	int num;
+	 
+	num= cardnum % N_MAX_CARDNUM; //종류별 A,1,2,3,,,,,10,J,Q,K(13장) 
 	
+	if (num == 0){
+		num = N_MAX_CARDNUM;
+	} 
+	
+	if (num ==1)
+		no = 11; // A이면 일단 11로 하기. 
+	else if(num >=2 && num <=10)
+		no = num;
+	else if(num>=11 && num <= 13)
+		no = 10;
+		
+	return no;		
 }
 
 //print the card information (e.g. DiaA)
@@ -104,6 +120,21 @@ void printCard(int cardnum) {
 
 //mix the card sets and put in the array
 int mixCardTray(void) {
+	int i,j;
+	
+	
+	printf(" -->card is mixed and put into the tray\n");
+	
+	cardIndex = 0;
+	
+	//카드 세트 수
+	for (i=0; i< N_CARDSET ; i++ ){
+		 
+		 //카드 세트 수
+		 for (j < N_CARD; j++){
+		 	CardTray[(i+j)*j)] = (i+1) *(j+1);
+		 	} 
+	} 
 
 
 }
@@ -178,15 +209,15 @@ int betDollar(void) {
 void offerCards(void) {
 	int i,j;
 	//1. give two card for each players
-	for (i=0;i<n_user + 1;i++)
+	for (i=0;i<numofusers + 1;i++)
 	{
 		cardhold[i][0] = pullCard();
 		cardhold[i][1] = pullCard();
 	}
 	//2. give two card for the operator
-	cardhold[n_user][0] = pullCard();
+	cardhold[numofusers][0] = pullCard();
 	
-	cardhold[n_user][1] = pullCard();
+	cardhold[numofusers][1] = pullCard();
 	
 	return;
 }
@@ -265,9 +296,43 @@ int calcStepResult() {
 }
 
 int checkResult() {
+	int i ;
+	int dealerSum;
 	
+	//ROUND 합계점수
+	for( i=0; i< numofusers + 1; i++)
+		cardSum[i] = getSum[i];
+	for (i=0; i< numofusers; i++ ){
+		if ()
+	} 
+	
+	// Dealer(Server)가 blackjack이면 player는 모두 패배하고, 각자 배팅한 금액만큼 잃음
+	deaelSum = cardSUm[n_user];
+	if () 
+	
+	
+	//Dealer(Server가 21을 초과하면 남은 player들은 모두 승리하며, 각자 배팅한 금액만큼 얻음
+	if(dealerSum > 21){
+	 	for(i=0; i<numofusers; i++){
+	 		 //userstatus[i] 가 0이면 아직 승패가 결정되지 않은 상태임
+			  
+		 if (userstatus[i] == 0){  
+		 	dollar[i]  = dollar[i] + bet[i];
+			 userStatus[i] = 1; //userstatus[i]가 1이 되면 승리
+		 	}
+		 }
+	}
+	
+	//마지막 남은 player 승패처리
+	//Dealer 카드 합보다 player의 합이 같거나 크면 승리하고 배팅한 금액만큼 받음
+	 
+ 
 }
 
+
+printf("\n---------------------------------------------------------\n");
+ 
+ 
 int checkWinner() {
 	
 	
