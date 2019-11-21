@@ -4,8 +4,8 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = ../../Users/rlaskdud/Desktop/z/main.o
-LINKOBJ  = ../../Users/rlaskdud/Desktop/z/main.o
+OBJ      = main.o cardprocessing.o cardarray.o SettingBettingOffering.o SumStatusActionCardnumCalc.o CheckInitialEnd.o
+LINKOBJ  = main.o cardprocessing.o cardarray.o SettingBettingOffering.o SumStatusActionCardnumCalc.o CheckInitialEnd.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -24,5 +24,20 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
 
-../../Users/rlaskdud/Desktop/z/main.o: ../../Users/rlaskdud/Desktop/z/main.c
-	$(CC) -c ../../Users/rlaskdud/Desktop/z/main.c -o ../../Users/rlaskdud/Desktop/z/main.o $(CFLAGS)
+main.o: main.c
+	$(CC) -c main.c -o main.o $(CFLAGS)
+
+cardprocessing.o: cardprocessing.c
+	$(CC) -c cardprocessing.c -o cardprocessing.o $(CFLAGS)
+
+cardarray.o: cardarray.c
+	$(CC) -c cardarray.c -o cardarray.o $(CFLAGS)
+
+SettingBettingOffering.o: SettingBettingOffering.c
+	$(CC) -c SettingBettingOffering.c -o SettingBettingOffering.o $(CFLAGS)
+
+SumStatusActionCardnumCalc.o: SumStatusActionCardnumCalc.c
+	$(CC) -c SumStatusActionCardnumCalc.c -o SumStatusActionCardnumCalc.o $(CFLAGS)
+
+CheckInitialEnd.o: CheckInitialEnd.c
+	$(CC) -c CheckInitialEnd.c -o CheckInitialEnd.o $(CFLAGS)
