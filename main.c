@@ -3,7 +3,7 @@
 #include "cardprocessing.c"
 #include "cardarray.c"
 #include "SettingBettingOffering.c"
-#include SumStatusCardnumCal.c
+#include "SumStatusCardnumCal.c"
 #include "CheckInitialEnd.c" 
 
 
